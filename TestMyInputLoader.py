@@ -4,17 +4,34 @@ from MyInputLoader import MyInputLoader
 
 class TestMyInputLoader(unittest.TestCase):
     def testReadsSingleIntegerLine(self):
-        #loader = self.setUp()
-        self.sut.fileHandle.readline = MagicMock(return_value="3")
+        self.setReadLineMock(["3"])
         self.assertEqual(self.sut.loadSingleIntegerLine(), 3)
 
+    def testReadsSingleIntegerLineHugeNumber(self):
+        self.setReadLineMock(["123456789012345678901234567890123456789012345678901234567890"])
+        self.assertEqual(self.sut.loadSingleIntegerLine(),
+                         123456789012345678901234567890123456789012345678901234567890)
+
     def testReadsMultipleIntegerOneLine(self):
-        #loader = self.setUp()
-        self.sut.fileHandle.readline = MagicMock(return_value="3 4 5")
-        self.assertEqual(self.sut.loadMultipleIntegerLine(), [3,4,5])
+        self.setReadLineMock(["3 4 11"])
+        self.assertEqual(self.sut.loadMultipleIntegerLine(), [3, 4, 11])
+
+    def testReadsMultipleIntegerOneLineCustomSeparator(self):
+        self.setReadLineMock(["23|5|111"])
+        self.assertEqual(self.sut.loadMultipleIntegerLine("|"), [23, 5, 111])
+
+    def testReadsMultipleIntegerMultipleLines(self):
+        self.setReadLineMock(["1 2 3 4","111 23 4 1","0 0 9 9"])
+        self.assertEqual(self.sut.loadMultipleIntegerMultipleLines(3),
+                         [[1, 2, 3, 4],[111, 23, 4, 1],[0, 0, 9, 9]])
 
     def setUp(self):
         self.sut = MyInputLoader()
+
+    def setReadLineMock(self, returnValue):
+        self.sut.fileHandle.readline = MagicMock()
+        self.sut.fileHandle.readline.side_effect = returnValue
+
 
 if __name__ == '__main__':
     unittest.main()
