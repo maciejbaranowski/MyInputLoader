@@ -7,14 +7,14 @@ class MyInputLoader:
         self.fileHandle = open(fileName, 'r')
     def closeFile(self):
         self.fileHandle.close()
-    def loadSingleIntegerLine(self):
-        return int(self.fileHandle.readline())
-    def loadMultipleIntegerLine(self, separator=" "):
+    def loadSingleElementLine(self, format = int):
+        return format(self.fileHandle.readline())
+    def loadMultipleElementLine(self, separator=" ", format = int):
         line = self.fileHandle.readline()
         line = line.split(separator)
-        return [int(i) for i in line]
-    def loadMultipleIntegerMultipleLines(self, lines, separator=" "):
+        return [format(i) for i in line]
+    def loadMultipleElementMultipleLines(self, lines, separator=" ", format = int):
         outputMatrix = []
         for noOfLine in range(lines):
-            outputMatrix.append(self.loadMultipleIntegerLine())
+            outputMatrix.append(self.loadMultipleElementLine(format = format))
         return outputMatrix
