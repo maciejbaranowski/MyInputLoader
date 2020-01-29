@@ -12,7 +12,7 @@ class InputHandler(fileinput.FileInput):
         return [format(i) for i in line]
     def loadMultipleElementMultipleLines(self, lines, separator=" ", format = int):
         outputMatrix = []
-        for noOfLine in range(lines):
+        for _ in range(lines):
             outputMatrix.append(self.loadMultipleElementLine(format = format))
         return outputMatrix
 
@@ -36,7 +36,7 @@ def processAll(solution):
             with OutputHandler(open("out/"+outputFileName, 'wb')) as outputFile:
                 startTime = time.process_time()
                 solution(inputFile, outputFile)   
-                solutiontime = time.process_time()
+                solutiontime = startTime - time.process_time()
         print(f'Processed {inputFileName}, it took {solutiontime} seconds')
 
 

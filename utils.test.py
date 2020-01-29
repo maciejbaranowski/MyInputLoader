@@ -38,8 +38,8 @@ class TestInputHandler(unittest.TestCase):
         self.sut = InputHandler()
 
     def setReadLineMock(self, returnValue):
-        self.sut.fileHandle.readline = MagicMock()
-        self.sut.fileHandle.readline.side_effect = returnValue
+        self.sut.readline = MagicMock()
+        self.sut.readline.side_effect = returnValue
 
 
 if __name__ == '__main__':
