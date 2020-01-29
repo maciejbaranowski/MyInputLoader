@@ -1,8 +1,9 @@
 import unittest
 from unittest.mock import MagicMock
-from MyInputLoader import MyInputLoader
 
-class TestMyInputLoader(unittest.TestCase):
+from utils import InputHandler
+
+class TestInputHandler(unittest.TestCase):
     def testReadsSingleIntegerLine(self):
         self.setReadLineMock(["3"])
         self.assertEqual(self.sut.loadSingleElementLine(), 3)
@@ -34,7 +35,7 @@ class TestMyInputLoader(unittest.TestCase):
         self.assertEqual(self.sut.loadSingleElementLine(format = str),'ABC')
 
     def setUp(self):
-        self.sut = MyInputLoader()
+        self.sut = InputHandler()
 
     def setReadLineMock(self, returnValue):
         self.sut.fileHandle.readline = MagicMock()
