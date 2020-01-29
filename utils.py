@@ -36,7 +36,7 @@ def processAll(solution):
             with OutputHandler(open("out/"+outputFileName, 'wb')) as outputFile:
                 startTime = time.process_time()
                 solution(inputFile, outputFile)   
-                solutiontime = time.process_time()
+                solutiontime = time.process_time() - startTime
         print(f'Processed {inputFileName}, it took {solutiontime} seconds')
 
 
