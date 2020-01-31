@@ -1,4 +1,5 @@
 import utils
+from memoization import cached
 
 def solution(input : utils.InputHandler, output : utils.OutputHandler):
     [maxNumOfSlices, numOfPizzas] = input.loadMultipleElementLine()
@@ -6,6 +7,7 @@ def solution(input : utils.InputHandler, output : utils.OutputHandler):
     selectedPizzas = []
 
     #Algotithm: recursively check problem for n - 1 pizzas. Optimal but slow
+    @cached(max_size=100000)
     def subProblem(numOfSlicesInPizzaSubset, maxNumOfSlicesSubset):
         if len(numOfSlicesInPizzaSubset) == 0:
             return [0 , []]
@@ -19,7 +21,7 @@ def solution(input : utils.InputHandler, output : utils.OutputHandler):
             return [pizzaNotTaken[0], pizzaNotTaken[1]]
 
     [score, selectedPizzas] = subProblem(numOfSlicesInPizza, maxNumOfSlices)
-
+    print(f"Score: {score}")
     output.writeline(len(selectedPizzas))
     output.writeline(selectedPizzas)
 
