@@ -12,7 +12,7 @@ class InputHandler(fileinput.FileInput):
         return [format(i) for i in line]
     def loadMultipleElementMultipleLines(self, lines, separator=" ", format = int):
         outputMatrix = []
-        for noOfLine in range(lines):
+        for _ in range(lines):
             outputMatrix.append(self.loadMultipleElementLine(format = format))
         return outputMatrix
 

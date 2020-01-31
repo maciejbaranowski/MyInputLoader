@@ -5,17 +5,20 @@ def solution(input : utils.InputHandler, output : utils.OutputHandler):
     numOfSlicesInPizza = input.loadMultipleElementLine()
     selectedPizzas = []
 
-    #Algorithm: just naively take pizzas from smallest one until max is reached
-    slicesCounter = 0
-    pizzaCounter = 0
-    while pizzaCounter < numOfPizzas:
-        if slicesCounter + numOfSlicesInPizza[pizzaCounter] <= maxNumOfSlices:
-            slicesCounter += numOfSlicesInPizza[pizzaCounter]
-            pizzaCounter += 1
+    #Algotithm: recursively check problem for n - 1 pizzas. Optimal but slow
+    def subProblem(numOfSlicesInPizzaSubset, maxNumOfSlicesSubset):
+        if len(numOfSlicesInPizzaSubset) == 0:
+            return [0 , []]
+        pizzaTaken = subProblem(numOfSlicesInPizzaSubset[:-1], maxNumOfSlicesSubset - numOfSlicesInPizzaSubset[-1]) 
+        pizzaTaken[0] += numOfSlicesInPizzaSubset[-1]
+        pizzaNotTaken = subProblem(numOfSlicesInPizzaSubset[:-1], maxNumOfSlicesSubset)
+    
+        if (pizzaTaken[0] > pizzaNotTaken[0] and pizzaTaken[0] < maxNumOfSlicesSubset):
+            return [pizzaTaken[0], pizzaTaken[1] + [len(numOfSlicesInPizzaSubset) - 1]]
         else:
-            break
+            return [pizzaNotTaken[0], pizzaNotTaken[1]]
 
-    selectedPizzas = list(range(0,pizzaCounter))
+    [score, selectedPizzas] = subProblem(numOfSlicesInPizza, maxNumOfSlices)
 
     output.writeline(len(selectedPizzas))
     output.writeline(selectedPizzas)
